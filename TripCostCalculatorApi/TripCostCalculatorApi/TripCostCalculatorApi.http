@@ -1,0 +1,6 @@
+@TripCostCalculatorApi_HostAddress = http://localhost:5206
+
+GET {{TripCostCalculatorApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
