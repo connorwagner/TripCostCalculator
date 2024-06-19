@@ -1,4 +1,6 @@
-﻿namespace TripCostCalculatorApi.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace TripCostCalculatorApi.Models;
 
 [Serializable]
 public class ReturnableException
@@ -8,6 +10,9 @@ public class ReturnableException
     public string? Source { get; }
     public string? StackTrace { get; }
     public ReturnableException? InnerException { get; }
+
+    [JsonConstructor]
+    public ReturnableException() { }
 
     public ReturnableException(Exception exception, bool includeInnerException = true, bool includeStackTrace = false)
     {
