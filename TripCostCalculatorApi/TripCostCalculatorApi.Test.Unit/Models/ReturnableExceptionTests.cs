@@ -54,7 +54,7 @@ public class ReturnableErrorTests
                 // Testing for an exact stack trace is fragile because it
                 // would need to be modified. A simple check for the file
                 // name is safer and gets the majority of the value of the test.
-                subject.StackTrace.Should().Contain("ReturnableErrorTests.cs");
+                subject.StackTrace.Should().Contain("ReturnableExceptionTests.cs");
             }
             else
             {
