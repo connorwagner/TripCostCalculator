@@ -8,7 +8,7 @@ It consists of a simple React frontend and a C#/.NET Web API backend.
 
 ### API
 
-The API is a straightforward .NET Web API written in C#.
+The API is a straightforward .NET Web API written in C#. Documentation is available via a Swagger OpenAPI interface when running the API in development mode.
 
 #### Running
 
