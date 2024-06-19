@@ -1,11 +1,10 @@
-﻿using System.Net;
-using TripCostCalculatorApi.Models;
+﻿using TripCostCalculatorApi.Models;
 
 namespace TripCostCalculatorApi.Interfaces;
 
 public interface IApiResponse
 {
-    public HttpStatusCode Status { get; }
+    public int Status { get; }
     public IEnumerable<ReturnableException>? Errors { get; }
 }
 
