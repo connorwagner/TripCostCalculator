@@ -14,7 +14,6 @@ public class HealthController : ControllerBase
     [ProducesResponseType(typeof(IApiResponse), ((int)HttpStatusCode.OK))]
     public IApiResponse ApiHealth()
     {
-        var errors = new List<Exception> { new ArgumentOutOfRangeException() };
-        return new ApiResponse(HttpStatusCode.InternalServerError, errors);
+        return new ApiResponse(HttpStatusCode.OK);
     }
 }
