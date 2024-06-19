@@ -44,8 +44,8 @@ If you use the `asdf` version manager with the `nodejs` plugin, version 22.3.0 w
 
 #### Running
 
-TODO
+To run a development server, `npm run dev` from the /trip-cost-calculator-ui/ directory.
 
 #### Testing
 
-TODO
+To run tests, `npm run test` from the /trip-cost-calculator-ui/ directory.
