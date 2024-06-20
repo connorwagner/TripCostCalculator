@@ -1,7 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
 import { useRef } from "react";
-import Card from "~/components/card.component";
-import Icon from "~/components/icon.component";
+import TitleCard from "~/components/index/title-card.component";
 import { Participant } from "~/models/participant.model";
 
 export const meta: MetaFunction = () => {
@@ -24,18 +23,7 @@ export default function Index() {
 
   return (
     <div className="font-mono p-4">
-      <Card className="flex justify-center">
-        <div className="flex flex-col items-center space-y-4">
-          <h1 className="text-3xl text-center">Trip Cost Calculator</h1>
-          <Card
-            className="w-full flex justify-evenly items-center text-green-500"
-            onClick={addNewRow}
-          >
-            <Icon name="add" />
-            <p className="size-fit">Add another person</p>
-          </Card>
-        </div>
-      </Card>
+      <TitleCard addNewRow={addNewRow} />
     </div>
   );
 }
