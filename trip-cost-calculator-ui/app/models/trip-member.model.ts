@@ -1,4 +1,4 @@
-export interface Participant {
+export interface TripMember {
   name: string;
   spent: number;
 }

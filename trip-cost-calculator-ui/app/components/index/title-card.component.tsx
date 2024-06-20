@@ -14,7 +14,7 @@ export default function TitleCard({ addNewRow }: TitleCardProps) {
           className="bg-white w-full flex justify-evenly items-center text-green-500"
           onClick={addNewRow}
         >
-          <Icon name="add" />
+          <Icon name="add" className="text-5xl" />
           <p className="size-fit">Add another person</p>
         </Card>
       </div>

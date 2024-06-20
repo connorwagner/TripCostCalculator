@@ -1,8 +1,8 @@
 import type { MetaFunction } from "@remix-run/node";
 import { useRef, useState } from "react";
-import AddMemberModal from "~/components/index/add-member-modal.component";
+import MemberRow from "~/components/index/member-row.component";
 import TitleCard from "~/components/index/title-card.component";
-import { Participant } from "~/models/participant.model";
+import { TripMember } from "~/models/trip-member.model";
 
 export const meta: MetaFunction = () => {
   return [
@@ -16,25 +16,39 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   const rootElementRef = useRef<HTMLDivElement | null>(null);
-  const [addMemberModalIsOpen, setAddMemberModalIsOpen] =
-    useState<boolean>(false);
 
-  const groupMembers = useRef<Participant[]>([]);
+  const [groupMembers, setGroupMembers] = useState<TripMember[]>([]);
 
   function addNewRow() {
-    setAddMemberModalIsOpen(true);
+    setGroupMembers([
+      ...groupMembers,
+      {
+        name: `Member ${groupMembers.length}`,
+        spent: 0,
+      },
+    ]);
+  }
+
+  function deleteRow(member: TripMember) {
+    const idx = groupMembers.indexOf(member);
+    setGroupMembers([
+      ...groupMembers.slice(0, idx),
+      ...groupMembers.slice(idx + 1),
+    ]);
   }
 
   const containerClassName = "font-mono p-4";
   return (
     <div className={containerClassName} ref={rootElementRef}>
       <TitleCard addNewRow={addNewRow} />
-      <AddMemberModal
-        isOpen={addMemberModalIsOpen}
-        setIsOpen={setAddMemberModalIsOpen}
-        appElement={rootElementRef.current}
-        parentElement={rootElementRef.current}
-      />
+      {groupMembers.map((member) => (
+        <MemberRow
+          key={member.name}
+          member={member}
+          isEditing={false}
+          deleteEntry={() => deleteRow(member)}
+        />
+      ))}
     </div>
   );
 }
