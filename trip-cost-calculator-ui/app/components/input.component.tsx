@@ -11,17 +11,17 @@ export default function Input<T extends string | number>({
   onChange,
   isEditable,
 }: InputProps<T>) {
-  const [value, setValue] = useState(valueProp);
+  const [value, setValue] = useState(valueProp.toString());
 
   const isNumberType = typeof value === "number";
   const inputType = isNumberType ? "number" : "text";
 
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = event.target.value;
-    const coercedValue = (isNumberType ? parseFloat(rawValue) : rawValue) as T;
+    setValue(rawValue);
 
+    const coercedValue = (isNumberType ? parseFloat(rawValue) : rawValue) as T;
     onChange(coercedValue);
-    setValue(coercedValue);
   };
 
   return (
