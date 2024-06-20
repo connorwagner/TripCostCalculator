@@ -2,30 +2,56 @@ import { useState } from "react";
 import { TripMember } from "~/models/trip-member.model";
 import Icon from "../icon.component";
 import Card from "../card.component";
+import Input from "../input.component";
 
 export type MemberRowProps = {
   member: TripMember;
-  deleteEntry: () => void;
   isEditing: boolean;
+  deleteEntry: () => void;
+  dataChanged: (newValue: TripMember) => void;
 };
 
 export default function MemberRow({
   member,
   isEditing: isEditingProp,
   deleteEntry,
+  dataChanged,
 }: MemberRowProps) {
   const [isEditing, setIsEditing] = useState<boolean>(isEditingProp);
+
+  const editButtonHandler = () => {
+    if (isEditing) {
+      dataChanged(member);
+    }
+
+    setIsEditing(!isEditing);
+  };
 
   return (
     <Card className="flex justify-between items-center my-4">
       <div className="flex flex-col justify-between items-center">
         <Icon name="person" className="text-6xl" />
-        <p>{member.name}</p>
+        <Input
+          value={member.name}
+          onChange={(name) => (member.name = name)}
+          isEditable={isEditing}
+        />
       </div>
-      <p className="text-3xl">${member.spent}</p>
+      <div className="flex justify-items-center text-3xl mx-4">
+        <p>$</p>
+        <Input
+          value={member.spent}
+          onChange={(spent) => (member.spent = spent)}
+          isEditable={isEditing}
+        />
+      </div>
       <div className="flex flex-col">
-        <div onClick={() => setIsEditing(!isEditing)} className="size-fit">
-          <Icon name="edit" className="text-yellow-600" />
+        <div onClick={editButtonHandler} className="size-fit">
+          {isEditing ? (
+            <Icon name="check" className="text-green-500" />
+          ) : (
+            <Icon name="edit" className="text-yellow-600" />
+          )}
         </div>
         <div onClick={deleteEntry} className="size-fit">
           <Icon name="delete" className="text-rose-800" />

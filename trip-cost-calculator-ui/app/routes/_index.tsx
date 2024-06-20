@@ -37,9 +37,17 @@ export default function Index() {
     ]);
   }
 
-  const containerClassName = "font-mono p-4";
+  function updateRow(member: TripMember) {
+    const idx = groupMembers.indexOf(member);
+    setGroupMembers([
+      ...groupMembers.slice(0, idx),
+      member,
+      ...groupMembers.slice(idx + 1),
+    ]);
+  }
+
   return (
-    <div className={containerClassName} ref={rootElementRef}>
+    <div className="font-mono p-4" ref={rootElementRef}>
       <TitleCard addNewRow={addNewRow} />
       {groupMembers.map((member) => (
         <MemberRow
@@ -47,6 +55,7 @@ export default function Index() {
           member={member}
           isEditing={false}
           deleteEntry={() => deleteRow(member)}
+          dataChanged={() => updateRow(member)}
         />
       ))}
     </div>

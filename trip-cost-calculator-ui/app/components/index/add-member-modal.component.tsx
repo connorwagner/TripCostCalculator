@@ -8,6 +8,7 @@ export type AddMemberModalProps = {
   parentElement: HTMLElement | null;
 };
 
+// TODO: delete this if it winds up unused
 export default function AddMemberModal({
   isOpen,
   setIsOpen,
