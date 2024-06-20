@@ -16,7 +16,7 @@ describe("Index", () => {
     render(<RemixStub />);
   });
 
-  it("should render the title", async () => {
+  it("should render the title", () => {
     const title = screen.findByText("Trip Cost Calculator");
     expect(title).toBeDefined();
   });
