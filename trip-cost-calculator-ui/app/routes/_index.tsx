@@ -3,7 +3,6 @@ import { useRef, useState } from "react";
 import AddMemberModal from "~/components/index/add-member-modal.component";
 import TitleCard from "~/components/index/title-card.component";
 import { Participant } from "~/models/participant.model";
-import { pageRootElementId } from "~/constants";
 
 export const meta: MetaFunction = () => {
   return [
@@ -16,9 +15,11 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const groupMembers = useRef<Participant[]>([]);
+  const rootElementRef = useRef<HTMLDivElement | null>(null);
   const [addMemberModalIsOpen, setAddMemberModalIsOpen] =
     useState<boolean>(false);
+
+  const groupMembers = useRef<Participant[]>([]);
 
   function addNewRow() {
     setAddMemberModalIsOpen(true);
@@ -26,12 +27,13 @@ export default function Index() {
 
   const containerClassName = "font-mono p-4";
   return (
-    <div className={containerClassName} id={pageRootElementId}>
+    <div className={containerClassName} ref={rootElementRef}>
       <TitleCard addNewRow={addNewRow} />
       <AddMemberModal
         isOpen={addMemberModalIsOpen}
         setIsOpen={setAddMemberModalIsOpen}
-        containerClassName={containerClassName}
+        appElement={rootElementRef.current}
+        parentElement={rootElementRef.current}
       />
     </div>
   );

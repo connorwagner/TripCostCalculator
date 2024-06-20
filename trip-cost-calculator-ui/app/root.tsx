@@ -6,10 +6,6 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import "./tailwind.css";
-import ReactModal from "react-modal";
-import { pageRootElementId } from "./constants";
-
-ReactModal.setAppElement(`#${pageRootElementId}`);
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
