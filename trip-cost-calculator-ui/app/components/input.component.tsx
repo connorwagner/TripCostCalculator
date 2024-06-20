@@ -13,7 +13,7 @@ export default function Input<T extends string | number>({
 }: InputProps<T>) {
   const [value, setValue] = useState(valueProp.toString());
 
-  const isNumberType = typeof value === "number";
+  const isNumberType = typeof valueProp === "number";
   const inputType = isNumberType ? "number" : "text";
 
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,6 +35,7 @@ export default function Input<T extends string | number>({
         className={`border-none bg-transparent focus:outline-none ${
           isEditable ? "underline" : ""
         } underline-offset-4`}
+        data-testid="input"
       />
     </div>
   );
