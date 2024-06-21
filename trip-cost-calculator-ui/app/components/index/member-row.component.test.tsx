@@ -1,12 +1,13 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import MemberRow from "./member-row.component";
+import MemberRow, { TripMemberMetadata } from "./member-row.component";
 import { TripMember } from "~/models/trip-member.model";
 import { Mock } from "vitest";
 
 describe("MemberRow", () => {
-  const tripMember: TripMember = {
+  const tripMember: TripMemberMetadata = {
     name: "Trip Member",
     spent: 123.45,
+    isEditing: false,
   };
 
   let mockDeleteEntry: Mock;
@@ -19,7 +20,6 @@ describe("MemberRow", () => {
     render(
       <MemberRow
         member={tripMember}
-        isEditing={false}
         deleteEntry={mockDeleteEntry}
         dataChanged={mockDataChanged}
       />

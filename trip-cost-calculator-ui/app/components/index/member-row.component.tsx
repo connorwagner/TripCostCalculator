@@ -1,30 +1,23 @@
-import { useState } from "react";
 import { TripMember } from "~/models/trip-member.model";
 import Icon from "../icon.component";
 import Card from "../card.component";
 import Input from "../input.component";
 
 export type MemberRowProps = {
-  member: TripMember;
-  isEditing: boolean;
+  member: TripMemberMetadata;
   deleteEntry: () => void;
   dataChanged: (newValue: TripMember) => void;
 };
 
 export default function MemberRow({
   member,
-  isEditing: isEditingProp,
   deleteEntry,
   dataChanged,
 }: MemberRowProps) {
-  const [isEditing, setIsEditing] = useState<boolean>(isEditingProp);
-
   const editButtonHandler = () => {
-    if (isEditing) {
-      dataChanged(member);
-    }
+    member.isEditing = !member.isEditing;
 
-    setIsEditing(!isEditing);
+    dataChanged(member);
   };
 
   return (
@@ -35,7 +28,7 @@ export default function MemberRow({
         <Input
           value={member.name}
           onChange={(name) => (member.name = name)}
-          isEditable={isEditing}
+          isEditable={member.isEditing}
         />
       </div>
       <div className="flex justify-items-center text-3xl mx-4">
@@ -43,7 +36,7 @@ export default function MemberRow({
         <Input
           value={member.spent}
           onChange={(spent) => (member.spent = spent)}
-          isEditable={isEditing}
+          isEditable={member.isEditing}
         />
       </div>
       <div className="flex flex-col">
@@ -52,7 +45,7 @@ export default function MemberRow({
           className="size-fit"
           data-testid="edit-done-button"
         >
-          {isEditing ? (
+          {member.isEditing ? (
             <Icon name="check" className="text-green-500" />
           ) : (
             <Icon name="edit" className="text-yellow-600" />
@@ -68,4 +61,8 @@ export default function MemberRow({
       </div>
     </Card>
   );
+}
+
+export interface TripMemberMetadata extends TripMember {
+  isEditing: boolean;
 }
