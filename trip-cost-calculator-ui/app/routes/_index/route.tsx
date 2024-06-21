@@ -1,6 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
 import { useRef, useState } from "react";
-import ActionCard from "./components/action-card.component";
+import ActionCard, { goAction } from "./components/action-card.component";
 import MemberRow, {
   TripMemberMetadata,
 } from "./components/member-row.component";
@@ -16,20 +16,22 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+export const action = goAction;
+
 export default function Index() {
   const rootElementRef = useRef<HTMLDivElement | null>(null);
 
-  const [groupMembers, setGroupMembers] = useState<TripMemberMetadata[]>([]);
+  const [tripMembers, setTripMembers] = useState<TripMemberMetadata[]>([]);
 
   function addNewRow() {
-    const existingMembersNotEditing: TripMemberMetadata[] = groupMembers.map(
+    const existingMembersNotEditing: TripMemberMetadata[] = tripMembers.map(
       (m) => ({ ...m, isEditing: false })
     );
 
-    setGroupMembers([
+    setTripMembers([
       ...existingMembersNotEditing,
       {
-        name: `Member ${groupMembers.length + 1}`,
+        name: `Member ${tripMembers.length + 1}`,
         spent: 0,
         isEditing: true,
       },
@@ -37,34 +39,27 @@ export default function Index() {
   }
 
   function deleteRow(member: TripMemberMetadata) {
-    const idx = groupMembers.indexOf(member);
-    setGroupMembers([
-      ...groupMembers.slice(0, idx),
-      ...groupMembers.slice(idx + 1),
+    const idx = tripMembers.indexOf(member);
+    setTripMembers([
+      ...tripMembers.slice(0, idx),
+      ...tripMembers.slice(idx + 1),
     ]);
   }
 
   function updateRow(member: TripMemberMetadata) {
-    const idx = groupMembers.indexOf(member);
-    setGroupMembers([
-      ...groupMembers.slice(0, idx),
+    const idx = tripMembers.indexOf(member);
+    setTripMembers([
+      ...tripMembers.slice(0, idx),
       member,
-      ...groupMembers.slice(idx + 1),
+      ...tripMembers.slice(idx + 1),
     ]);
   }
-
-  function goClicked() {
-    alert("go");
-  }
-
-  const isGoButtonEnabled =
-    groupMembers.length > 1 && !groupMembers.some((m) => m.isEditing);
 
   return (
     <div className="flex justify-center">
       <div className="font-mono p-4 max-w-sm" ref={rootElementRef}>
         <TitleCard addNewRow={addNewRow} />
-        {groupMembers.map((member) => (
+        {tripMembers.map((member) => (
           <MemberRow
             key={member.name}
             member={member}
@@ -72,7 +67,7 @@ export default function Index() {
             deleteEntry={() => deleteRow(member)}
           />
         ))}
-        <ActionCard goEnabled={isGoButtonEnabled} goClicked={goClicked} />
+        <ActionCard tripMembers={tripMembers} />
       </div>
     </div>
   );
