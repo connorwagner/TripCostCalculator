@@ -14,7 +14,7 @@ public class CalculationController(ICostBalancerService costBalancerService) : C
     [HttpPost] // This would be a great candidate for the proposed QUERY method
     [Route("balance-costs")]
     [ProducesResponseType(typeof(IApiResponse<BalancedCosts>), (int)HttpStatusCode.OK)]
-    public IApiResponse<BalancedCosts> BalanceCosts([FromBody] TripMember[] tripMembers)
+    public IApiResponse<BalancedCosts> BalanceCosts([FromBody] IEnumerable<TripMember> tripMembers)
     {
         var result = costBalancerService.BalanceCosts(tripMembers);
 
