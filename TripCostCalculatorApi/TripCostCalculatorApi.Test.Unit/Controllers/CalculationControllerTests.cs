@@ -90,5 +90,29 @@ public class CalculationControllerTests
             var error = result.Errors!.First();
             error.Message.Should().Contain("Trip Members cannot have a negative amount spent");
         }
+
+        [Fact]
+        public void Should_Validate_TripMembers_Names_And_Spends()
+        {
+            IEnumerable<TripMember> tripMembers = [
+                new() {
+                    Name = "",
+                    Spent = 12.34M
+                },
+                new() {
+                    Name = "Member 2",
+                    Spent = -12.34M
+                }
+            ];
+            var result = controller.BalanceCosts(new CalculationController.BalanceCostsApiRequestBody { Data = tripMembers });
+
+            result.Status.ShouldBeEquivalentTo(HttpStatusCode.BadRequest);
+
+            var error = result.Errors!.First(e => e.Message!.Contains("name"));
+            error.Message.Should().Contain("All Trip Members must have a name");
+
+            error = result.Errors!.First(e => e.Message!.Contains("amount"));
+            error.Message.Should().Contain("Trip Members cannot have a negative amount spent");
+        }
     }
 }

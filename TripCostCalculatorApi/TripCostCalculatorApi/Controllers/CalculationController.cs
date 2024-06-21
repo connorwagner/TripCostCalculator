@@ -41,14 +41,21 @@ public class CalculationController(ICostBalancerService costBalancerService) : C
     {
         var tripMembers = body.Data;
 
+        List<Exception> errors = [];
+
         if (tripMembers.Any(m => string.IsNullOrWhiteSpace(m.Name)))
         {
-            return new(HttpStatusCode.BadRequest, null, [new ArgumentException("All Trip Members must have a name", "data[].name")]);
+            errors.Add(new ArgumentException("All Trip Members must have a name", "data[].name"));
         }
 
         if (tripMembers.Any(m => m.Spent < 0))
         {
-            return new(HttpStatusCode.BadRequest, null, [new ArgumentException("Trip Members cannot have a negative amount spent", "data[].spent")]);
+            errors.Add(new ArgumentException("Trip Members cannot have a negative amount spent", "data[].spent"));
+        }
+
+        if (errors.Count > 0)
+        {
+            return new(HttpStatusCode.BadRequest, null, errors);
         }
 
         return null;
