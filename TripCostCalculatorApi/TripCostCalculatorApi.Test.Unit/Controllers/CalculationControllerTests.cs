@@ -4,6 +4,7 @@ using Moq;
 using TripCostCalculatorApi.Controllers;
 using TripCostCalculatorApi.Domain.Interfaces;
 using TripCostCalculatorApi.Domain.Models;
+using TripCostCalculatorApi.Models;
 
 namespace TripCostCalculatorApi.Test.Unit.Controllers;
 
@@ -46,7 +47,7 @@ public class CalculationControllerTests
                 .Returns(expectedResult);
 
             IEnumerable<TripMember> tripMembers = expectedResult.OwedMoney.SelectMany<OwedMoney, TripMember>(r => [r.Recipient, r.Giver]);
-            var result = controller.BalanceCosts(tripMembers);
+            var result = controller.BalanceCosts(new ApiRequestBody<IEnumerable<TripMember>> { Data = tripMembers });
             result.Status.ShouldBeEquivalentTo(HttpStatusCode.OK);
             result.Data.ShouldBeEquivalentTo(expectedResult);
         }
