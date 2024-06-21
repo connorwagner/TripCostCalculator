@@ -1,5 +1,5 @@
-import Card from "../card.component";
-import Icon from "../icon.component";
+import Card from "~/components/card.component";
+import Icon from "~/components/icon.component";
 
 export type TitleCardProps = {
   addNewRow: () => void;

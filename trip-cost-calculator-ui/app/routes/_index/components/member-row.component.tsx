@@ -1,7 +1,7 @@
 import { TripMember } from "~/models/trip-member.model";
-import Icon from "../icon.component";
-import Card from "../card.component";
-import Input from "../input.component";
+import Icon from "~/components/icon.component";
+import Card from "~/components/card.component";
+import Input from "~/components/input.component";
 
 export type MemberRowProps = {
   member: TripMemberMetadata;

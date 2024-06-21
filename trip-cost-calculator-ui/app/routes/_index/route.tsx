@@ -1,10 +1,10 @@
 import type { MetaFunction } from "@remix-run/node";
 import { useRef, useState } from "react";
-import ActionCard from "~/components/index/action-card.component";
+import ActionCard from "./components/action-card.component";
 import MemberRow, {
   TripMemberMetadata,
-} from "~/components/index/member-row.component";
-import TitleCard from "~/components/index/title-card.component";
+} from "./components/member-row.component";
+import TitleCard from "./components/title-card.component";
 
 export const meta: MetaFunction = () => {
   return [

@@ -1,6 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import MemberRow, { TripMemberMetadata } from "./member-row.component";
-import { TripMember } from "~/models/trip-member.model";
 import { Mock } from "vitest";
 
 describe("MemberRow", () => {
