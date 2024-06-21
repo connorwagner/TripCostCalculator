@@ -5,7 +5,6 @@ import MemberRow, {
   TripMemberMetadata,
 } from "~/components/index/member-row.component";
 import TitleCard from "~/components/index/title-card.component";
-import { TripMember } from "~/models/trip-member.model";
 
 export const meta: MetaFunction = () => {
   return [
@@ -62,17 +61,19 @@ export default function Index() {
     groupMembers.length > 1 && !groupMembers.some((m) => m.isEditing);
 
   return (
-    <div className="font-mono p-4" ref={rootElementRef}>
-      <TitleCard addNewRow={addNewRow} />
-      {groupMembers.map((member) => (
-        <MemberRow
-          key={member.name}
-          member={member}
-          dataChanged={() => updateRow(member)}
-          deleteEntry={() => deleteRow(member)}
-        />
-      ))}
-      <ActionCard goEnabled={isGoButtonEnabled} goClicked={goClicked} />
+    <div className="flex justify-center">
+      <div className="font-mono p-4 max-w-sm" ref={rootElementRef}>
+        <TitleCard addNewRow={addNewRow} />
+        {groupMembers.map((member) => (
+          <MemberRow
+            key={member.name}
+            member={member}
+            dataChanged={() => updateRow(member)}
+            deleteEntry={() => deleteRow(member)}
+          />
+        ))}
+        <ActionCard goEnabled={isGoButtonEnabled} goClicked={goClicked} />
+      </div>
     </div>
   );
 }
