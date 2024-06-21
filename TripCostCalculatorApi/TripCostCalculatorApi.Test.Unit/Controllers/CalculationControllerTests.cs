@@ -4,7 +4,6 @@ using Moq;
 using TripCostCalculatorApi.Controllers;
 using TripCostCalculatorApi.Domain.Interfaces;
 using TripCostCalculatorApi.Domain.Models;
-using TripCostCalculatorApi.Models;
 
 namespace TripCostCalculatorApi.Test.Unit.Controllers;
 
@@ -47,9 +46,49 @@ public class CalculationControllerTests
                 .Returns(expectedResult);
 
             IEnumerable<TripMember> tripMembers = expectedResult.OwedMoney.SelectMany<OwedMoney, TripMember>(r => [r.Recipient, r.Giver]);
-            var result = controller.BalanceCosts(new ApiRequestBody<IEnumerable<TripMember>> { Data = tripMembers });
+            var result = controller.BalanceCosts(new CalculationController.BalanceCostsApiRequestBody { Data = tripMembers });
             result.Status.ShouldBeEquivalentTo(HttpStatusCode.OK);
             result.Data.ShouldBeEquivalentTo(expectedResult);
+        }
+
+        [Fact]
+        public void Should_Validate_TripMembers_Names()
+        {
+            IEnumerable<TripMember> tripMembers = [
+                new() {
+                    Name = "Member 1",
+                    Spent = 12.34M
+                },
+                new() {
+                    Name = " ",
+                    Spent = 12.34M
+                }
+            ];
+            var result = controller.BalanceCosts(new CalculationController.BalanceCostsApiRequestBody { Data = tripMembers });
+
+            result.Status.ShouldBeEquivalentTo(HttpStatusCode.BadRequest);
+            var error = result.Errors!.First();
+            error.Message.Should().Contain("All Trip Members must have a name");
+        }
+
+        [Fact]
+        public void Should_Validate_TripMembers_Spends()
+        {
+            IEnumerable<TripMember> tripMembers = [
+                new() {
+                    Name = "Member 1",
+                    Spent = 12.34M
+                },
+                new() {
+                    Name = "Member 2",
+                    Spent = -12.34M
+                }
+            ];
+            var result = controller.BalanceCosts(new CalculationController.BalanceCostsApiRequestBody { Data = tripMembers });
+
+            result.Status.ShouldBeEquivalentTo(HttpStatusCode.BadRequest);
+            var error = result.Errors!.First();
+            error.Message.Should().Contain("Trip Members cannot have a negative amount spent");
         }
     }
 }

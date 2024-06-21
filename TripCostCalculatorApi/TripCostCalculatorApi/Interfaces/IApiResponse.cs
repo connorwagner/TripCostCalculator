@@ -10,5 +10,5 @@ public interface IApiResponse
 
 public interface IApiResponse<T> : IApiResponse
 {
-    public T Data { get; }
+    public T? Data { get; }
 }

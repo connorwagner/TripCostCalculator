@@ -38,6 +38,9 @@ public class StatusCodeRewriterMiddleware(RequestDelegate next)
         }
         catch (Exception e)
         {
+            // Future improvement: Catch deserialization failures and inspect them
+            // to turn the response to a 400 on malformed requests. Not required for MVP.
+
             var newBody = new ApiResponse(HttpStatusCode.InternalServerError, [e]);
             var newBodyStr = JsonSerializer.Serialize(newBody);
 
