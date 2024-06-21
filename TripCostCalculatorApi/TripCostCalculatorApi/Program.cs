@@ -2,9 +2,13 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using TripCostCalculatorApi.Configuration;
+using TripCostCalculatorApi.Domain.Interfaces;
+using TripCostCalculatorApi.Domain.Services;
 using TripCostCalculatorApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddTransient<ICostBalancerService, CostBalancerService>();
 
 builder.Services.AddSwaggerGen();
 
