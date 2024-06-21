@@ -28,7 +28,7 @@ export default function MemberRow({
   };
 
   return (
-    <Card className="flex justify-between items-center my-4">
+    <Card className="flex justify-between items-center mb-4">
       <div className="flex flex-col justify-between items-center">
         <Icon name="person" className="text-6xl" />
         <Input

@@ -42,4 +42,22 @@ describe("Card", () => {
 
     expect(div.className).toContain(classes);
   });
+
+  it("should use a provided color", async () => {
+    const color = "bg-white";
+
+    render(<Card className={color}></Card>);
+
+    const div = await screen.findByTestId("card-container");
+
+    expect(div.className).toContain(color);
+  });
+
+  it("should default to zinc-200", async () => {
+    render(<Card></Card>);
+
+    const div = await screen.findByTestId("card-container");
+
+    expect(div.className).toContain("bg-zinc-200");
+  });
 });

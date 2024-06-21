@@ -1,5 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
 import { useRef, useState } from "react";
+import ActionCard from "~/components/index/action-card.component";
 import MemberRow from "~/components/index/member-row.component";
 import TitleCard from "~/components/index/title-card.component";
 import { TripMember } from "~/models/trip-member.model";
@@ -58,6 +59,7 @@ export default function Index() {
           dataChanged={() => updateRow(member)}
         />
       ))}
+      <ActionCard />
     </div>
   );
 }
