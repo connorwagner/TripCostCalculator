@@ -39,7 +39,9 @@ public class CalculationControllerTests
                         },
                         Amount = 0M
                     }
-                ]
+                ],
+                TotalCost = 24.68M,
+                CostPerPerson = 12.34M
             };
             mockCostBalancer
                 .Setup(m => m.BalanceCosts(It.IsAny<IEnumerable<TripMember>>()))

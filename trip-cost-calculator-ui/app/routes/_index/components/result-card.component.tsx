@@ -8,6 +8,12 @@ export type ResultCardProps = {
 export default function ResultCard({ balancedCosts }: ResultCardProps) {
   return (
     <Card className="mb-4">
+      <p className="text-center mb-4">
+        Total spent: ${balancedCosts.totalCost}
+      </p>
+      <p className="text-center mb-4">
+        Total cost per person: ${balancedCosts.costPerPerson}
+      </p>
       {balancedCosts.owedMoney.map((owed, idx) => (
         <Card
           colorClass={`bg-white ${
@@ -15,7 +21,7 @@ export default function ResultCard({ balancedCosts }: ResultCardProps) {
           }`}
           key={`${owed.giver.name}-${owed.recipient.name}`}
         >
-          <p>
+          <p className="text-center">
             {owed.giver.name} owes {owed.recipient.name} ${owed.amount}
           </p>
         </Card>

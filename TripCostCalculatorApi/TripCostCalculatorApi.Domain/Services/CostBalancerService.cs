@@ -7,6 +7,7 @@ public class CostBalancerService : ICostBalancerService
 {
     public BalancedCosts BalanceCosts(IEnumerable<TripMember> tripMembers)
     {
+        var totalCost = tripMembers.Sum(m => m.Spent);
         var averageCost = RoundToDecimalPlaces(tripMembers.Average(m => m.Spent), decimals: 2);
 
         var recipients = tripMembers
@@ -49,7 +50,12 @@ public class CostBalancerService : ICostBalancerService
             }
         }
 
-        return new() { OwedMoney = results };
+        return new()
+        {
+            OwedMoney = results,
+            TotalCost = totalCost,
+            CostPerPerson = averageCost
+        };
     }
 
     private static decimal RoundToDecimalPlaces(decimal value, int decimals)

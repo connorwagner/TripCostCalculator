@@ -22,6 +22,8 @@ public class CostBalancerServiceTests
             ];
             var result = subject.BalanceCosts(members);
 
+            result.TotalCost.ShouldBeEquivalentTo(69.12M);
+            result.CostPerPerson.ShouldBeEquivalentTo(34.56M);
             result.OwedMoney.Should().HaveCount(1);
 
             var owed = result.OwedMoney.First(o => o.Giver.Name == "Jacob");
@@ -44,6 +46,8 @@ public class CostBalancerServiceTests
             ];
             var result = subject.BalanceCosts(members);
 
+            result.TotalCost.ShouldBeEquivalentTo(217.18M);
+            result.CostPerPerson.ShouldBeEquivalentTo(72.39M);
             result.OwedMoney.Should().HaveCount(2);
 
             var owed = result.OwedMoney.First(o => o.Giver.Name == "Louis");
@@ -71,6 +75,8 @@ public class CostBalancerServiceTests
             ];
             var result = subject.BalanceCosts(members);
 
+            result.TotalCost.ShouldBeEquivalentTo(1_643.18M);
+            result.CostPerPerson.ShouldBeEquivalentTo(547.72M);
             result.OwedMoney.Should().HaveCount(2);
 
             var owed = result.OwedMoney.First(o => o.Giver.Name == "Noah");
@@ -103,6 +109,8 @@ public class CostBalancerServiceTests
             ];
             var result = subject.BalanceCosts(members);
 
+            result.TotalCost.ShouldBeEquivalentTo(100M);
+            result.CostPerPerson.ShouldBeEquivalentTo(25M);
             result.OwedMoney.Should().HaveCount(2);
 
             var owed = result.OwedMoney.First(o => o.Giver.Name == "Jim");
@@ -142,6 +150,8 @@ public class CostBalancerServiceTests
             ];
             var result = subject.BalanceCosts(members);
 
+            result.TotalCost.ShouldBeEquivalentTo(170M);
+            result.CostPerPerson.ShouldBeEquivalentTo(34M);
             result.OwedMoney.Should().HaveCount(4);
 
             var owed = result.OwedMoney.First(o => o.Recipient.Name == "Jon");
