@@ -1,3 +1,4 @@
+// Required by tsyringe
 import "reflect-metadata";
 
 import createFetchMock from "vitest-fetch-mock";

@@ -6,7 +6,7 @@ import MemberRow, {
 } from "./components/member-row.component";
 import TitleCard from "./components/title-card.component";
 import { useFetcher } from "@remix-run/react";
-import { BalancedCosts, OwedMoney } from "~/models/balanced-costs.model";
+import { BalancedCosts } from "~/models/balanced-costs.model";
 import { fetcherKey } from "./constants";
 import ResultCard from "./components/result-card.component";
 
