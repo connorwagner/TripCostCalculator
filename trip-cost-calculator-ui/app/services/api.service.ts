@@ -1,6 +1,7 @@
 import { BalancedCosts } from "~/models/balanced-costs.model";
 import { TripMember } from "~/models/trip-member.model";
 import { injectable } from "tsyringe";
+import { EnvironmentVariableService } from "./environment-variable.service";
 
 @injectable()
 export class ApiService {
@@ -14,33 +15,53 @@ export class ApiService {
     return result;
   }
 
+  private readonly baseUrl = EnvironmentVariableService.get("ApiBaseUrl");
+
   private async sendRequest<D, R>(
     urlPart: string,
     method: HttpMethod,
     data?: D
   ): Promise<R> {
-    // TODO: env config for base url
-    const result = await fetch(`http://localhost:5206${urlPart}`, {
+    const result = await fetch(`${this.baseUrl}${urlPart}`, {
       method,
       body: JSON.stringify({ data }),
       headers: { "Content-Type": "application/json" },
     });
 
-    if (result.status !== HttpStatus.OK) {
-      throw new ApiError(result);
+    if (result.status >= 300) {
+      throw new ApiError({
+        status: result.status,
+        errors: [
+          {
+            message: result.statusText,
+            type: null,
+            source: null,
+            stackTrace: null,
+            innerException: null,
+          },
+        ],
+        data: undefined,
+      });
     }
 
     const body = (await result.json()) as ApiResponse<R>;
 
-    // TODO: inspect status and errors from result
-    // (how does that interact with the status check above?)
+    if (body.status >= 300 || body.errors) {
+      throw new ApiError(body as ApiResponse<undefined>);
+    }
+
     return body.data;
   }
 }
 
 export class ApiError extends Error {
-  constructor(public readonly response: Response) {
-    super(response.statusText);
+  constructor(public readonly response: ApiResponse<undefined>) {
+    const accumulatedErrorMessages = response.errors?.reduce(
+      (acc, cur) => `${acc} | ${cur}`,
+      ""
+    );
+
+    super(`Status ${response.status}: ${accumulatedErrorMessages}`);
   }
 }
 
@@ -56,10 +77,6 @@ interface ApiResponseError {
   source: string | null;
   stackTrace: string | null;
   innerException: ApiResponseError | null;
-}
-
-enum HttpStatus {
-  OK = 200,
 }
 
 enum HttpMethod {
