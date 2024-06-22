@@ -54,7 +54,7 @@ export default function MemberRow({
   return (
     <Card className="flex justify-between items-center mb-4" ref={cardRef}>
       <span className="hidden" data-testid="member-row" />
-      <div className="flex flex-col justify-between items-center">
+      <div className="flex basis-1/3 flex-col justify-between items-center">
         <Icon name="person" className="text-6xl" />
         <Input
           value={member.name}
@@ -62,11 +62,11 @@ export default function MemberRow({
           isEditable={member.isEditing}
         />
       </div>
-      <div className="flex justify-items-center text-3xl mx-4">
-        <p>${totalAmountSpent}</p>
+      <div className="flex basis-1/2 justify-center text-3xl mx-4">
+        <p className="text-center">${totalAmountSpent}</p>
       </div>
       {isEditable ? (
-        <div className="flex flex-col">
+        <div className="flex basis-1/8 flex-col size-fit">
           <div
             onClick={editButtonHandler}
             className="size-fit"
@@ -87,15 +87,14 @@ export default function MemberRow({
               <Icon name="add" className="text-green-500" />
             </div>
           ) : (
-            <></>
+            <div
+              onClick={deleteButtonHandler}
+              className="size-fit"
+              data-testid="delete-button"
+            >
+              <Icon name="delete" className="text-rose-800" />
+            </div>
           )}
-          <div
-            onClick={deleteButtonHandler}
-            className="size-fit"
-            data-testid="delete-button"
-          >
-            <Icon name="delete" className="text-rose-800" />
-          </div>
         </div>
       ) : (
         <></>
