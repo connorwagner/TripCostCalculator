@@ -39,7 +39,7 @@ export default function Index() {
       ...existingMembersNotEditing,
       {
         name: `Member ${tripMembers.length + 1}`,
-        spent: 0,
+        expenses: [],
         isEditing: true,
       },
     ]);

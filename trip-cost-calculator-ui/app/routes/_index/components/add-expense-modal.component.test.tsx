@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import AddMemberModal from "./add-member-modal.component";
+import AddExpenseModal from "./add-expense-modal.component";
 
 describe("AddMemberModal", () => {
   let isOpen: boolean;
@@ -8,7 +8,7 @@ describe("AddMemberModal", () => {
 
   const uiDefinition = () => (
     <div data-testid="parent">
-      <AddMemberModal
+      <AddExpenseModal
         isOpen={isOpen}
         setIsOpen={(_isOpen) => (isOpen = _isOpen)}
         appElement={parentElement}
