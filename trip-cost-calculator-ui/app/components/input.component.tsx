@@ -32,7 +32,7 @@ export default function Input<T extends string | number>({
         value={value}
         onChange={changeHandler}
         size={0}
-        className={`border-none bg-transparent focus:outline-none ${
+        className={`text-center border-none bg-transparent focus:outline-none ${
           isEditable ? "underline" : ""
         } underline-offset-4`}
         data-testid="input"
