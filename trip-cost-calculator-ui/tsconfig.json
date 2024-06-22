@@ -25,6 +25,10 @@
       "~/*": ["./app/*"]
     },
 
+    // Required by tsyringe
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
     // Vite takes care of building everything, not tsc.
     "noEmit": true
   }

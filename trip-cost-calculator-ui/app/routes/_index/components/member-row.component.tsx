@@ -1,28 +1,42 @@
 import { TripMember } from "~/models/trip-member.model";
-import Icon from "../icon.component";
-import Card from "../card.component";
-import Input from "../input.component";
+import Icon from "~/components/icon.component";
+import Card from "~/components/card.component";
+import Input from "~/components/input.component";
 
 export type MemberRowProps = {
   member: TripMemberMetadata;
+  isEditable: boolean;
   deleteEntry: () => void;
   dataChanged: (newValue: TripMember) => void;
 };
 
 export default function MemberRow({
   member,
+  isEditable,
   deleteEntry,
   dataChanged,
 }: MemberRowProps) {
   const editButtonHandler = () => {
+    if (!isEditable) {
+      return;
+    }
+
     member.isEditing = !member.isEditing;
 
     dataChanged(member);
   };
 
+  const deleteButtonHandler = () => {
+    if (!isEditable) {
+      return;
+    }
+
+    deleteEntry();
+  };
+
   return (
     <Card className="flex justify-between items-center mb-4">
-      <span className="invisible" data-testid="member-row" />
+      <span className="hidden" data-testid="member-row" />
       <div className="flex flex-col justify-between items-center">
         <Icon name="person" className="text-6xl" />
         <Input
@@ -39,7 +53,7 @@ export default function MemberRow({
           isEditable={member.isEditing}
         />
       </div>
-      <div className="flex flex-col">
+      <div className={`flex flex-col ${isEditable ? "" : "hidden"}`}>
         <div
           onClick={editButtonHandler}
           className="size-fit"
@@ -52,7 +66,7 @@ export default function MemberRow({
           )}
         </div>
         <div
-          onClick={deleteEntry}
+          onClick={deleteButtonHandler}
           className="size-fit"
           data-testid="delete-button"
         >

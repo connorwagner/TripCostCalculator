@@ -16,15 +16,19 @@
     "@remix-run/react": "^2.9.2",
     "@remix-run/serve": "^2.9.2",
     "isbot": "^4.1.0",
+    "qs": "^6.12.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-modal": "^3.16.1"
+    "react-modal": "^3.16.1",
+    "reflect-metadata": "^0.2.2",
+    "tsyringe": "^4.8.0"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.9.2",
     "@remix-run/testing": "^2.9.2",
     "@testing-library/dom": "^10.1.0",
     "@testing-library/react": "^16.0.0",
+    "@types/qs": "^6.9.15",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@types/react-modal": "^3.16.3",
@@ -42,7 +46,8 @@
     "typescript": "^5.1.6",
     "vite": "^5.1.0",
     "vite-tsconfig-paths": "^4.2.1",
-    "vitest": "^1.6.0"
+    "vitest": "^1.6.0",
+    "vitest-fetch-mock": "^0.2.2"
   },
   "engines": {
     "node": ">=20.0.0"

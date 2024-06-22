@@ -25,13 +25,13 @@ public class ApiResponse : IApiResponse
     public IEnumerable<ReturnableException>? Errors { get; set; }
 }
 
-public class ApiResponse<T>(int status, T data, IEnumerable<Exception>? errors = null)
+public class ApiResponse<T>(int status, T? data, IEnumerable<Exception>? errors = null)
     : ApiResponse(status, errors), IApiResponse<T>
 {
-    public ApiResponse(HttpStatusCode status, T data, IEnumerable<Exception>? errors = null)
+    public ApiResponse(HttpStatusCode status, T? data, IEnumerable<Exception>? errors = null)
         : this((int)status, data, errors)
     {
     }
 
-    public T Data { get; set; } = data;
+    public T? Data { get; set; } = data;
 }

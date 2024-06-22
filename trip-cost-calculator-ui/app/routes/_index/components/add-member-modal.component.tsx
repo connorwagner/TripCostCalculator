@@ -1,5 +1,5 @@
 import ReactModal from "react-modal";
-import Card from "../card.component";
+import Card from "~/components/card.component";
 
 export type AddMemberModalProps = {
   isOpen: boolean;
