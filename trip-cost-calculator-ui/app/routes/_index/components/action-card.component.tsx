@@ -46,13 +46,13 @@ export default function ActionCard({ tripMembers }: ActionCardProps) {
   return (
     <>
       <div
-        className={`w-full flex justify-evenly items-center ${
+        className={`w-full flex justify-evenly items-center mb-4 ${
           goEnabled ? "text-green-500" : "text-green-700"
         }`}
       >
         <Card
           colorClass={goEnabled ? undefined : "bg-gray-400"}
-          className={`${!goEnabled ? "" : ""}w-fit flex items-center space-x-4`}
+          className="w-fit flex items-center space-x-4"
           onClick={goClickHandler}
         >
           <Icon name="calculate" />

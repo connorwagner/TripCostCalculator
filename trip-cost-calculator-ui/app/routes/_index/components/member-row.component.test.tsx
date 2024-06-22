@@ -1,4 +1,9 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import {
+  RenderResult,
+  fireEvent,
+  render,
+  screen,
+} from "@testing-library/react";
 import MemberRow, { TripMemberMetadata } from "./member-row.component";
 import { Mock } from "vitest";
 
@@ -12,13 +17,16 @@ describe("MemberRow", () => {
   let mockDeleteEntry: Mock;
   let mockDataChanged: Mock;
 
+  let renderResult: RenderResult;
+
   beforeEach(() => {
     mockDeleteEntry = vi.fn();
     mockDataChanged = vi.fn();
 
-    render(
+    renderResult = render(
       <MemberRow
         member={tripMember}
+        isEditable={true}
         deleteEntry={mockDeleteEntry}
         dataChanged={mockDataChanged}
       />
@@ -70,5 +78,24 @@ describe("MemberRow", () => {
     deleteButton.click();
 
     expect(mockDeleteEntry).toHaveBeenCalled();
+  });
+
+  it("should remove edit buttons", async () => {
+    renderResult.rerender(
+      <MemberRow
+        member={tripMember}
+        isEditable={false}
+        deleteEntry={mockDeleteEntry}
+        dataChanged={mockDataChanged}
+      />
+    );
+
+    const editButton = await screen.findByTestId("edit-done-button");
+    editButton.click();
+    expect(mockDataChanged).not.toHaveBeenCalled();
+
+    const deleteButton = await screen.findByTestId("delete-button");
+    deleteButton.click();
+    expect(mockDeleteEntry).not.toHaveBeenCalled();
   });
 });

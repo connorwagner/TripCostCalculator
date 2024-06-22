@@ -6,8 +6,9 @@ import MemberRow, {
 } from "./components/member-row.component";
 import TitleCard from "./components/title-card.component";
 import { useFetcher } from "@remix-run/react";
-import { OwedMoney } from "~/models/balanced-costs.model";
+import { BalancedCosts, OwedMoney } from "~/models/balanced-costs.model";
 import { fetcherKey } from "./constants";
+import ResultCard from "./components/result-card.component";
 
 export const meta: MetaFunction = () => {
   return [
@@ -26,8 +27,8 @@ export default function Index() {
 
   const [tripMembers, setTripMembers] = useState<TripMemberMetadata[]>([]);
 
-  const fetcher = useFetcher<OwedMoney>({ key: fetcherKey });
-  const owedMoney = fetcher.data;
+  const fetcher = useFetcher({ key: fetcherKey });
+  const balancedCosts = fetcher.data as BalancedCosts;
 
   function addNewRow() {
     const existingMembersNotEditing: TripMemberMetadata[] = tripMembers.map(
@@ -61,20 +62,35 @@ export default function Index() {
     ]);
   }
 
+  function reset() {
+    setTripMembers([]);
+    fetcher.data = null;
+  }
+
   return (
     <div className="flex justify-center">
       <div className="font-mono p-4 max-w-sm" ref={rootElementRef}>
-        <TitleCard addNewRow={addNewRow} />
+        <TitleCard
+          addNewRow={addNewRow}
+          reset={reset}
+          isEditable={!balancedCosts}
+        />
+
         {tripMembers.map((member) => (
           <MemberRow
             key={member.name}
             member={member}
+            isEditable={!balancedCosts}
             dataChanged={() => updateRow(member)}
             deleteEntry={() => deleteRow(member)}
           />
         ))}
-        <ActionCard tripMembers={tripMembers} />
-        {/* {owedMoney ? <ResultCard /> : <></>} */}
+
+        {balancedCosts ? (
+          <ResultCard balancedCosts={balancedCosts} />
+        ) : (
+          <ActionCard tripMembers={tripMembers} />
+        )}
       </div>
     </div>
   );

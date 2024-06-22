@@ -5,19 +5,33 @@ import Input from "~/components/input.component";
 
 export type MemberRowProps = {
   member: TripMemberMetadata;
+  isEditable: boolean;
   deleteEntry: () => void;
   dataChanged: (newValue: TripMember) => void;
 };
 
 export default function MemberRow({
   member,
+  isEditable,
   deleteEntry,
   dataChanged,
 }: MemberRowProps) {
   const editButtonHandler = () => {
+    if (!isEditable) {
+      return;
+    }
+
     member.isEditing = !member.isEditing;
 
     dataChanged(member);
+  };
+
+  const deleteButtonHandler = () => {
+    if (!isEditable) {
+      return;
+    }
+
+    deleteEntry();
   };
 
   return (
@@ -39,7 +53,7 @@ export default function MemberRow({
           isEditable={member.isEditing}
         />
       </div>
-      <div className="flex flex-col">
+      <div className={`flex flex-col ${isEditable ? "" : "hidden"}`}>
         <div
           onClick={editButtonHandler}
           className="size-fit"
@@ -52,7 +66,7 @@ export default function MemberRow({
           )}
         </div>
         <div
-          onClick={deleteEntry}
+          onClick={deleteButtonHandler}
           className="size-fit"
           data-testid="delete-button"
         >
