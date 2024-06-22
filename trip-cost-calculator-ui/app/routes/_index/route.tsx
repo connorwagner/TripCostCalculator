@@ -5,6 +5,9 @@ import MemberRow, {
   TripMemberMetadata,
 } from "./components/member-row.component";
 import TitleCard from "./components/title-card.component";
+import { useFetcher } from "@remix-run/react";
+import { OwedMoney } from "~/models/balanced-costs.model";
+import { fetcherKey } from "./constants";
 
 export const meta: MetaFunction = () => {
   return [
@@ -22,6 +25,9 @@ export default function Index() {
   const rootElementRef = useRef<HTMLDivElement | null>(null);
 
   const [tripMembers, setTripMembers] = useState<TripMemberMetadata[]>([]);
+
+  const fetcher = useFetcher<OwedMoney>({ key: fetcherKey });
+  const owedMoney = fetcher.data;
 
   function addNewRow() {
     const existingMembersNotEditing: TripMemberMetadata[] = tripMembers.map(
@@ -68,6 +74,7 @@ export default function Index() {
           />
         ))}
         <ActionCard tripMembers={tripMembers} />
+        {/* {owedMoney ? <ResultCard /> : <></>} */}
       </div>
     </div>
   );

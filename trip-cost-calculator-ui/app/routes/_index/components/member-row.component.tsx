@@ -22,7 +22,7 @@ export default function MemberRow({
 
   return (
     <Card className="flex justify-between items-center mb-4">
-      <span className="invisible" data-testid="member-row" />
+      <span className="hidden" data-testid="member-row" />
       <div className="flex flex-col justify-between items-center">
         <Icon name="person" className="text-6xl" />
         <Input

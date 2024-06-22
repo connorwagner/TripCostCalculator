@@ -1,3 +1,6 @@
+// Required by tsyringe
+import "reflect-metadata";
+
 import {
   Links,
   Meta,
