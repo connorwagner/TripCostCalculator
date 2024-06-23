@@ -1,6 +1,7 @@
 import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import MemberRow, { TripMemberMetadata } from "./member-row.component";
 import { Mock } from "vitest";
+import { FormatterService } from "~/services/formatter.service";
 
 describe("MemberRow", () => {
   let tripMember: TripMemberMetadata;
@@ -45,7 +46,9 @@ describe("MemberRow", () => {
       />
     );
 
-    const costs = await screen.findByText(`$${totalSpent()}`);
+    const costs = await screen.findByText(
+      FormatterService.formatMoney(totalSpent())
+    );
     expect(costs).toBeDefined();
   });
 
@@ -60,7 +63,9 @@ describe("MemberRow", () => {
     );
 
     for (const expense of tripMember.expenses) {
-      const expenseElement = await screen.findByText(`$${expense}`);
+      const expenseElement = await screen.findByText(
+        FormatterService.formatMoney(expense)
+      );
       expect(expenseElement).toBeDefined();
     }
   });
@@ -139,9 +144,9 @@ describe("MemberRow", () => {
     );
 
     const expense = expenses[0];
-    const expenseContainer = (await screen.findByText(`$${expense}`)).closest(
-      "div"
-    )!;
+    const expenseContainer = (
+      await screen.findByText(FormatterService.formatMoney(expense))
+    ).closest("div")!;
     const deleteElement = await within(expenseContainer).findByText("delete");
     act(() => deleteElement.click());
     expect(mockDataChanged).toHaveBeenCalledWith(
