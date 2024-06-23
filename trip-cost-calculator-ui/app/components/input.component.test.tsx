@@ -39,6 +39,23 @@ describe("Input", () => {
     expect(value!.value).toEqual("test-data");
   });
 
+  it("should format the display value", async () => {
+    const formatValue = (value: string) => `|${value}|`;
+
+    render(
+      <Input
+        value="test value"
+        onChange={() => {}}
+        isEditable={true}
+        valueFormatter={formatValue}
+      />
+    );
+
+    const input = await screen.findByTestId("input");
+    const value = input.attributes.getNamedItem("value");
+    expect(value!.value).toEqual("|test value|");
+  });
+
   describe("when T == string", () => {
     it("should render an input with type=text", async () => {
       render(<Input value="" onChange={() => {}} isEditable={true} />);

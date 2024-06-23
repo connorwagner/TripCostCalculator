@@ -1,7 +1,6 @@
 import { useStateWithOverride } from "~/hooks/use-state-with-override.hook";
 import AutosizeInput, { AutosizeInputElement } from "./input/autosize-input";
 import { useLayoutEffect, useRef } from "react";
-import { countWithinString } from "~/utils/string-utils";
 
 export type InputProps<T> = {
   value: T;
@@ -30,7 +29,7 @@ export default function Input<T extends string | number>({
   const cursorPosition = useRef<CursorPosition>({
     start: 0,
     end: null,
-    hasAddedComma: false,
+    automaticallyAddedChars: 0,
   });
 
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,13 +49,17 @@ export default function Input<T extends string | number>({
       rawValue = valueFormatter(coercedValue);
     }
 
-    const commaRegex = /,/g;
+    let automaticallyAddedChars = rawValue.length - value.length;
+    if (automaticallyAddedChars > 0) {
+      automaticallyAddedChars -= 1;
+    } else {
+      automaticallyAddedChars += 1;
+    }
+
     cursorPosition.current = {
       start: event.currentTarget.selectionStart,
       end: event.currentTarget.selectionEnd,
-      hasAddedComma:
-        countWithinString(value, commaRegex) !=
-        countWithinString(rawValue, commaRegex),
+      automaticallyAddedChars,
     };
 
     setValue(rawValue);
@@ -68,16 +71,14 @@ export default function Input<T extends string | number>({
     // to the end of the line. We can manually reset the cursor
     // to the position it was previously in before the render
     // completes.
-    let { start, end, hasAddedComma } = cursorPosition.current;
+    let { start, end, automaticallyAddedChars } = cursorPosition.current;
 
-    if (hasAddedComma) {
-      if (start) {
-        start += 1;
-      }
+    if (start) {
+      start += automaticallyAddedChars;
+    }
 
-      if (end) {
-        end += 1;
-      }
+    if (end) {
+      end += automaticallyAddedChars;
     }
 
     inputRef.current?.setSelectionRange(start, end);
@@ -101,5 +102,5 @@ export default function Input<T extends string | number>({
 type CursorPosition = {
   start: number | null;
   end: number | null;
-  hasAddedComma: boolean;
+  automaticallyAddedChars: number;
 };
