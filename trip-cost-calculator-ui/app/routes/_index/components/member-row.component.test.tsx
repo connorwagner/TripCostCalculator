@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import MemberRow, { TripMemberMetadata } from "./member-row.component";
 import { Mock } from "vitest";
 
@@ -13,7 +13,7 @@ describe("MemberRow", () => {
   beforeEach(() => {
     tripMember = {
       name: "Trip Member",
-      expenses: [123.45],
+      expenses: [123.45, 67.89],
       isEditing: false,
     };
 
@@ -47,6 +47,22 @@ describe("MemberRow", () => {
 
     const costs = await screen.findByText(`$${totalSpent()}`);
     expect(costs).toBeDefined();
+  });
+
+  it("should display the trip member's individual costs", async () => {
+    render(
+      <MemberRow
+        member={tripMember}
+        isEditable={true}
+        deleteEntry={mockDeleteEntry}
+        dataChanged={mockDataChanged}
+      />
+    );
+
+    for (const expense of tripMember.expenses) {
+      const expenseElement = await screen.findByText(`$${expense}`);
+      expect(expenseElement).toBeDefined();
+    }
   });
 
   it("should allow the trip member's name to be edited", async () => {
@@ -106,6 +122,31 @@ describe("MemberRow", () => {
     act(() => deleteButton.click());
 
     expect(mockDeleteEntry).toHaveBeenCalled();
+  });
+
+  it("should allow the trip member's expenses to be deleted", async () => {
+    tripMember.isEditing = true;
+
+    const expenses = [...tripMember.expenses];
+
+    render(
+      <MemberRow
+        member={tripMember}
+        isEditable={true}
+        deleteEntry={mockDeleteEntry}
+        dataChanged={mockDataChanged}
+      />
+    );
+
+    const expense = expenses[0];
+    const expenseContainer = (await screen.findByText(`$${expense}`)).closest(
+      "div"
+    )!;
+    const deleteElement = await within(expenseContainer).findByText("delete");
+    act(() => deleteElement.click());
+    expect(mockDataChanged).toHaveBeenCalledWith(
+      expect.objectContaining({ expenses: expenses.slice(1) })
+    );
   });
 
   it("should remove edit buttons", async () => {

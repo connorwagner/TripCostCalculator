@@ -41,6 +41,17 @@ export default function MemberRow({
     dataChanged(member);
   };
 
+  const removeExpense = (index: number) => {
+    console.log(`removing expense at ${index}`);
+
+    member.expenses = [
+      ...member.expenses.slice(0, index),
+      ...member.expenses.slice(index + 1),
+    ];
+
+    dataChanged(member);
+  };
+
   const deleteButtonHandler = () => {
     if (!isEditable) {
       return;
@@ -62,8 +73,25 @@ export default function MemberRow({
           isEditable={member.isEditing}
         />
       </div>
-      <div className="flex basis-1/2 justify-center text-3xl mx-4">
-        <p className="text-center">${totalAmountSpent}</p>
+      <div className="flex flex-col basis-1/2 mx-4">
+        <p className="text-3xl">${totalAmountSpent}</p>
+        <ul className="px-4">
+          {member.expenses.map((expense, idx) => (
+            <div
+              className="flex flex-row justify-between items-center"
+              key={idx}
+            >
+              <li>${expense}</li>
+              {isEditable && member.isEditing ? (
+                <div onClick={() => removeExpense(idx)}>
+                  <Icon name="delete" className="text-lg" />
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
+          ))}
+        </ul>
       </div>
       {isEditable ? (
         <div className="flex basis-1/8 flex-col size-fit">
