@@ -37,8 +37,8 @@ public class CostBalancerService : ICostBalancerService
                 Amount = amount
             });
 
-            giver.Spent += amount;
-            recipient.Spent -= amount;
+            giver.Expenses.Add(amount);
+            recipient.Expenses.Add(-amount);
 
             if (giver.Spent >= averageCost)
             {

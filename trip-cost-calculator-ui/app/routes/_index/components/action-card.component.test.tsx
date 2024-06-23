@@ -36,12 +36,12 @@ describe("ActionCard", () => {
     const tripMembers = [
       {
         name: "Member 1",
-        spent: 1,
+        expenses: [1],
         isEditing: false,
       },
       {
         name: "Member 2",
-        spent: 2,
+        expenses: [2],
         isEditing: false,
       },
     ];
@@ -58,7 +58,7 @@ describe("ActionCard", () => {
     const RemixStub = setUpRemixStub([
       {
         name: "Member 1",
-        spent: 1,
+        expenses: [1],
         isEditing: true,
       },
     ]);
@@ -95,15 +95,17 @@ describe("goAction", () => {
       {
         recipient: {
           name: "Member 1",
-          spent: 12.34,
+          expenses: [12.34],
         },
         giver: {
           name: "Member 2",
-          spent: 12.34,
+          expenses: [12.34],
         },
         amount: 1.23,
       },
     ],
+    totalCost: 0,
+    costPerPerson: 0,
   };
 
   beforeEach(() => {
@@ -112,8 +114,8 @@ describe("goAction", () => {
 
   it("should balance costs", async () => {
     const tripMembers = [
-      { name: "Member 1", spent: 12.34 },
-      { name: "Member 2", spent: 56.78 },
+      { name: "Member 1", expenses: [12.34] },
+      { name: "Member 2", expenses: [56.78] },
     ];
     const request = buildFakeRequest(tripMembers);
 
@@ -121,7 +123,10 @@ describe("goAction", () => {
 
     expect(await result.json()).toEqual(balancedCostsResponse);
     expect(mockBalanceCosts).toBeCalledWith(
-      tripMembers.map((m) => ({ ...m, spent: m.spent.toString() }))
+      tripMembers.map((m) => ({
+        ...m,
+        expenses: m.expenses.map((e) => e.toString()),
+      }))
     );
   });
 

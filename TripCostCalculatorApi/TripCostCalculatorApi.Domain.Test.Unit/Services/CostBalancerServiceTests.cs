@@ -17,8 +17,8 @@ public class CostBalancerServiceTests
             // Average cost: 34.56
             // Jacob owes Kyle: 34.56 - 12.34 = 22.22 = 56.78 - 34.56
             IEnumerable<TripMember> members = [
-                new() { Name="Jacob", Spent=12.34M },
-                new() { Name="Kyle", Spent=56.78M }
+                new() { Name="Jacob", Expenses=[12.34M] },
+                new() { Name="Kyle", Expenses=[56.78M] }
             ];
             var result = subject.BalanceCosts(members);
 
@@ -40,9 +40,9 @@ public class CostBalancerServiceTests
             // Louis owes David: 72.39 - 53.54 = 18.85
             // Carter owes David: 72.39 - 50.23 = 18.85
             IEnumerable<TripMember> members = [
-                new() { Name="Louis", Spent=53.54M },
-                new() { Name="Carter", Spent=50.23M },
-                new() { Name="David", Spent=113.41M }
+                new() { Name="Louis", Expenses=[53.54M] },
+                new() { Name="Carter", Expenses=[50.23M] },
+                new() { Name="David", Expenses=[113.41M] }
             ];
             var result = subject.BalanceCosts(members);
 
@@ -69,9 +69,9 @@ public class CostBalancerServiceTests
             // Noah owes Caleb: 547.72 - 3.54 = 544.18
             // Deangelo owes Caleb: 547.72 - 500.23 = 47.49
             IEnumerable<TripMember> members = [
-                new() { Name="Noah", Spent=3.54M },
-                new() { Name="Deangelo", Spent=500.23M },
-                new() { Name="Caleb", Spent=1139.41M }
+                new() { Name="Noah", Expenses=[3.54M] },
+                new() { Name="Deangelo", Expenses=[500.23M] },
+                new() { Name="Caleb", Expenses=[1139.41M] }
             ];
             var result = subject.BalanceCosts(members);
 
@@ -102,10 +102,10 @@ public class CostBalancerServiceTests
             //  Jon total: 20 + 5 = 25
             //  Joe total: 30 - 5 = 25
             IEnumerable<TripMember> members = [
-                new() { Name="Jim", Spent=10M },
-                new() { Name="Jon", Spent=20M },
-                new() { Name="Joe", Spent=30M },
-                new() { Name="Joy", Spent=40M }
+                new() { Name="Jim", Expenses=[10M] },
+                new() { Name="Jon", Expenses=[20M] },
+                new() { Name="Joe", Expenses=[30M] },
+                new() { Name="Joy", Expenses=[40M] }
             ];
             var result = subject.BalanceCosts(members);
 
@@ -142,11 +142,11 @@ public class CostBalancerServiceTests
             //  Jim total: 23 + 11 = 34
             //  Joy total: 45 - 11 = 34
             IEnumerable<TripMember> members = [
-                new() { Name="Jim", Spent=0M },
-                new() { Name="Jon", Spent=42M },
-                new() { Name="Joe", Spent=40M },
-                new() { Name="Jay", Spent=43M },
-                new() { Name="Joy", Spent=45M }
+                new() { Name="Jim", Expenses=[0M] },
+                new() { Name="Jon", Expenses=[42M] },
+                new() { Name="Joe", Expenses=[40M] },
+                new() { Name="Jay", Expenses=[43M] },
+                new() { Name="Joy", Expenses=[45M] }
             ];
             var result = subject.BalanceCosts(members);
 
