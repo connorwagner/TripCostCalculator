@@ -46,6 +46,7 @@ export default function AddExpenseModal({
       className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
       overlayClassName="absolute inset-0 bg-gray-700 bg-opacity-80"
     >
+      <span className="hidden" data-testid="add-expense-modal" />
       <Card className="space-y-4">
         <h1 className="text-3xl text-center">Add an expense</h1>
         <Input
