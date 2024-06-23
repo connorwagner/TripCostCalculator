@@ -4,6 +4,7 @@ import Card, { CardElement } from "~/components/card.component";
 import Input from "~/components/input.component";
 import { useRef, useState } from "react";
 import AddExpenseModal from "./add-expense-modal.component";
+import { FormatterService } from "~/services/formatter.service";
 
 export type MemberRowProps = {
   member: TripMemberMetadata;
@@ -42,8 +43,6 @@ export default function MemberRow({
   };
 
   const removeExpense = (index: number) => {
-    console.log(`removing expense at ${index}`);
-
     member.expenses = [
       ...member.expenses.slice(0, index),
       ...member.expenses.slice(index + 1),
@@ -74,14 +73,16 @@ export default function MemberRow({
         />
       </div>
       <div className="flex flex-col basis-1/2 mx-4">
-        <p className="text-3xl">${totalAmountSpent}</p>
+        <p className="text-3xl">
+          {FormatterService.formatMoney(totalAmountSpent)}
+        </p>
         <ul className="px-4">
           {member.expenses.map((expense, idx) => (
             <div
               className="flex flex-row justify-between items-center"
               key={idx}
             >
-              <li>${expense}</li>
+              <li>{FormatterService.formatMoney(expense)}</li>
               {isEditable && member.isEditing ? (
                 <div onClick={() => removeExpense(idx)}>
                   <Icon name="delete" className="text-lg" />

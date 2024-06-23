@@ -3,6 +3,7 @@ import ReactModal from "react-modal";
 import Card from "~/components/card.component";
 import Icon from "~/components/icon.component";
 import Input from "~/components/input.component";
+import { FormatterService } from "~/services/formatter.service";
 
 export type AddExpenseModalProps = {
   addExpense: (amount: number) => void;
@@ -37,6 +38,9 @@ export default function AddExpenseModal({
     }
   };
 
+  const formatMoney = (amount: number): string =>
+    FormatterService.formatMoney(amount, { omitCurrencySymbol: true });
+
   return (
     <ReactModal
       appElement={appElement}
@@ -49,12 +53,16 @@ export default function AddExpenseModal({
       <span className="hidden" data-testid="add-expense-modal" />
       <Card className="space-y-4">
         <h1 className="text-3xl text-center">Add an expense</h1>
-        <Input
-          value={expenseAmount}
-          onChange={setExpenseAmount}
-          isEditable={true}
-          className="text-2xl"
-        />
+        <div className="flex flex-row justify-center">
+          <p className="text-2xl">$</p>
+          <Input
+            value={expenseAmount}
+            onChange={setExpenseAmount}
+            isEditable={true}
+            valueFormatter={formatMoney}
+            className="text-2xl"
+          />
+        </div>
         <div className="flex flex-row justify-evenly">
           <Card
             colorClass="bg-white"

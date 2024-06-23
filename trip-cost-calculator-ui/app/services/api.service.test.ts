@@ -51,8 +51,8 @@ describe("ApiService", () => {
     };
 
     const tripMembers: TripMember[] = [
-      { name: "Member 1", spent: 12.34 },
-      { name: "Member 2", spent: 56.78 },
+      { name: "Member 1", expenses: [12.34] },
+      { name: "Member 2", expenses: [56.78] },
     ];
 
     it("should get a result from the API", async () => {

@@ -1,18 +1,19 @@
 import { BalancedCosts } from "~/models/balanced-costs.model";
 import ResultCard from "./result-card.component";
 import { render, screen } from "@testing-library/react";
+import { FormatterService } from "~/services/formatter.service";
 
 describe("ResultCard", () => {
   const balancedCosts: BalancedCosts = {
     owedMoney: [
       {
-        recipient: { name: "Member 1", spent: 12.34 },
-        giver: { name: "Member 2", spent: 12.34 },
+        recipient: { name: "Member 1", expenses: [12.34] },
+        giver: { name: "Member 2", expenses: [12.34] },
         amount: 1.23,
       },
       {
-        recipient: { name: "Member 1", spent: 12.34 },
-        giver: { name: "Member 3", spent: 12.34 },
+        recipient: { name: "Member 1", expenses: [12.34] },
+        giver: { name: "Member 3", expenses: [12.34] },
         amount: 2.34,
       },
     ],
@@ -24,7 +25,7 @@ describe("ResultCard", () => {
     render(<ResultCard balancedCosts={balancedCosts} />);
 
     const totalCost = await screen.findByText(
-      `Total spent: $${balancedCosts.totalCost}`
+      `Total spent: ${FormatterService.formatMoney(balancedCosts.totalCost)}`
     );
     expect(totalCost).toBeDefined();
   });
@@ -33,7 +34,9 @@ describe("ResultCard", () => {
     render(<ResultCard balancedCosts={balancedCosts} />);
 
     const totalCost = await screen.findByText(
-      `Total cost per person: $${balancedCosts.costPerPerson}`
+      `Total cost per person: ${FormatterService.formatMoney(
+        balancedCosts.costPerPerson
+      )}`
     );
     expect(totalCost).toBeDefined();
   });
@@ -43,7 +46,9 @@ describe("ResultCard", () => {
 
     for (const owedMoney of balancedCosts.owedMoney) {
       const row = await screen.findByText(
-        `${owedMoney.giver.name} owes ${owedMoney.recipient.name} $${owedMoney.amount}`
+        `${owedMoney.giver.name} owes ${
+          owedMoney.recipient.name
+        } ${FormatterService.formatMoney(owedMoney.amount)}`
       );
       expect(row).toBeDefined();
     }

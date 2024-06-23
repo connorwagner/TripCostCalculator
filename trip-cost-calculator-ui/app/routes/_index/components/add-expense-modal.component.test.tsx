@@ -48,7 +48,7 @@ describe("AddMemberModal", () => {
   it("should notify when an expense is added", async () => {
     render(uiDefinition());
 
-    const inputElement = await screen.findByDisplayValue("0");
+    const inputElement = await screen.findByDisplayValue("0.00");
     fireEvent.change(inputElement, { target: { value: "12.34" } });
 
     const addButton = await screen.findByText("Add");
