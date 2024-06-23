@@ -66,20 +66,23 @@ export default function ActionCard({ tripMembers }: ActionCardProps) {
         className="hidden"
         ref={formRef}
       >
-        {tripMembers.map((member, idx) => (
+        {tripMembers.map((member, memberIdx) => (
           <span key={member.name}>
             <input
               readOnly
               type="text"
-              name={`members[${idx}][name]`}
+              name={`members[${memberIdx}][name]`}
               value={member.name}
             />
-            <input
-              readOnly
-              type="number"
-              name={`members[${idx}][spent]`}
-              value={member.spent}
-            />
+            {member.expenses.map((expense, expenseIdx) => (
+              <input
+                readOnly
+                type="number"
+                name={`members[${memberIdx}][expenses][${expenseIdx}]`}
+                value={expense}
+                key={`${member.name}-expense${expenseIdx}`}
+              />
+            ))}
           </span>
         ))}
       </fetcher.Form>

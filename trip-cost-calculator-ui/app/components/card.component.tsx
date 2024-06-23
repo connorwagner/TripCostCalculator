@@ -1,4 +1,6 @@
-import { MouseEventHandler, ReactNode } from "react";
+import { MouseEventHandler, ReactNode, Ref, forwardRef } from "react";
+
+export type CardElement = HTMLDivElement;
 
 export type CardProps = {
   colorClass?: string;
@@ -7,21 +9,20 @@ export type CardProps = {
   onClick?: MouseEventHandler;
 };
 
-export default function Card({
-  colorClass,
-  className,
-  children,
-  onClick,
-}: CardProps) {
+export default forwardRef<CardElement, CardProps>(function Card(
+  { colorClass, className, children, onClick },
+  ref
+) {
   return (
     <div
       className={`${colorClass ?? "bg-zinc-200"} rounded-xl p-4 ${
         className ?? ""
       }`}
       onClick={onClick}
+      ref={ref}
       data-testid="card-container"
     >
       {children}
     </div>
   );
-}
+});

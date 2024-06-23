@@ -1,17 +1,19 @@
-import { useState } from "react";
+import { useStateWithOverride } from "~/hooks/use-state-with-override.hook";
 
 export type InputProps<T> = {
   value: T;
   onChange: (newValue: T) => void;
   isEditable: boolean;
+  className?: string;
 };
 
 export default function Input<T extends string | number>({
   value: valueProp,
   onChange,
   isEditable,
+  className,
 }: InputProps<T>) {
-  const [value, setValue] = useState(valueProp.toString());
+  const [value, setValue] = useStateWithOverride(valueProp.toString());
 
   const isNumberType = typeof valueProp === "number";
   const inputType = isNumberType ? "number" : "text";
@@ -34,7 +36,7 @@ export default function Input<T extends string | number>({
         size={0}
         className={`text-center border-none bg-transparent focus:outline-none ${
           isEditable ? "underline" : ""
-        } underline-offset-4`}
+        } underline-offset-4 ${className ?? ""}`}
         data-testid="input"
       />
     </div>

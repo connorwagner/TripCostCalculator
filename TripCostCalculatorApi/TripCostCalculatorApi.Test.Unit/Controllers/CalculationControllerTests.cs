@@ -31,11 +31,11 @@ public class CalculationControllerTests
                     new() {
                         Recipient = new() {
                             Name = "Member 1",
-                            Spent = 12.34M
+                            Expenses = [12.34M]
                         },
                         Giver = new() {
                             Name = "Member 2",
-                            Spent = 12.34M
+                            Expenses = [12.34M]
                         },
                         Amount = 0M
                     }
@@ -59,11 +59,11 @@ public class CalculationControllerTests
             IEnumerable<TripMember> tripMembers = [
                 new() {
                     Name = "Member 1",
-                    Spent = 12.34M
+                    Expenses = [12.34M]
                 },
                 new() {
                     Name = " ",
-                    Spent = 12.34M
+                    Expenses = [12.34M]
                 }
             ];
             var result = controller.BalanceCosts(new CalculationController.BalanceCostsApiRequestBody { Data = tripMembers });
@@ -79,11 +79,11 @@ public class CalculationControllerTests
             IEnumerable<TripMember> tripMembers = [
                 new() {
                     Name = "Member 1",
-                    Spent = 12.34M
+                    Expenses = [12.34M]
                 },
                 new() {
                     Name = "Member 2",
-                    Spent = -12.34M
+                    Expenses = [-12.34M]
                 }
             ];
             var result = controller.BalanceCosts(new CalculationController.BalanceCostsApiRequestBody { Data = tripMembers });
@@ -99,11 +99,11 @@ public class CalculationControllerTests
             IEnumerable<TripMember> tripMembers = [
                 new() {
                     Name = "",
-                    Spent = 12.34M
+                    Expenses = [12.34M]
                 },
                 new() {
                     Name = "Member 2",
-                    Spent = -12.34M
+                    Expenses = [-12.34M]
                 }
             ];
             var result = controller.BalanceCosts(new CalculationController.BalanceCostsApiRequestBody { Data = tripMembers });
